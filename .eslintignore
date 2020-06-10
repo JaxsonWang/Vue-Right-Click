@@ -1,4 +1,5 @@
 build/*.js
+types/*.ts
 src/assets
 src/data/*.js
 public

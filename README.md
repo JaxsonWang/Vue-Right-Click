@@ -62,12 +62,15 @@ export default {
 当然你可以在静态页面使用，只需要引入：
 
 ```html
+<script src="vue.js"></script><!-- 需要 Vue.js 依赖 -->
 <script src="../dist/vue-right-click.umd.js"></script>
 ```
 
 ### Api
 
 未完待续
+
+使用方法请先查看：[test/index.html](./test/index.html) 或者 [src/App.vue](./src/App.vue)
 
 ### 更新日志
 

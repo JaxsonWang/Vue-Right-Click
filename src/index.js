@@ -1,6 +1,11 @@
-import ContextMenu from '@/components/ContextMenu'
+import ContextMenu from './components/ContextMenu'
 
-export const install = Vue => {
+export const install = (Vue, constructorOptions) => {
+  // 获取插件选项
+  const globalOptions = Object.assign({}, {
+    menuClass: 'vue-right-click'
+  }, constructorOptions)
+
   Vue.directive('right-click', {
     /**
      * 文档地址：https://cn.vuejs.org/v2/guide/custom-directive.html#%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0
@@ -29,14 +34,18 @@ export const install = Vue => {
           const rightClickHeaderRowLeft = event.offsetX
           const rightClickHeaderRowTop = event.offsetY
 
+          // 调用组件
           const contextMenuNode = new ContextMenuNode({
             propsData: {
               visible: true,
               contextMenuTop: rightClickHeaderRowTop,
               contextMenuLeft: rightClickHeaderRowLeft,
-              menuList: binding.value
+              menuList: binding.value,
+              pluginOptions: globalOptions
             }
           }).$mount(node)
+
+          // 监听组件触发事件执行回调事件
           contextMenuNode.$on('close-menu', value => {
             // 监听关闭并且赋值
             vnode.context['hasContextMenu'] = value

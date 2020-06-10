@@ -5,6 +5,7 @@
       top: `${contextMenuTop}px`,
       left: `${contextMenuLeft}px`
     }"
+    :class="pluginOptions.menuClass"
     class="context-menu-area"
   >
     <li
@@ -41,6 +42,13 @@ export default {
       type: Array,
       default: () => {
         return []
+      }
+    },
+    pluginOptions: {
+      require: true,
+      type: Object,
+      default: () => {
+        return {}
       }
     }
   },

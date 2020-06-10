@@ -1,12 +1,14 @@
 {
   "name": "@jaxson/vue-right-click",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "On Textmenu Plugin For Vue.js 2.0",
   "author": "Jaxson Wang",
   "license": "MIT",
   "unpkg": "dist/vue-right-click.umd.js",
   "jsdelivr": "dist/vue-right-click.umd.js",
+  "main": "dist/vue-right-click.umd.js",
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/JaxsonWang/Vue-Right-Click.git"
@@ -18,7 +20,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --target lib --name vue-right-click ./src/index.js",
+    "build:lib": "vue-cli-service build --target lib --name vue-right-click ./src/index.js",
     "lint": "vue-cli-service lint"
   },
   "devDependencies": {
