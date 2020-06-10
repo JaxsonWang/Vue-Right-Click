@@ -5,22 +5,34 @@
   <title>测试</title>
   <style type="text/css">
   .demo {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0 0.5rem;
   }
-  .demo .demo-item {
+  .demo .demo1 {
+    margin-top: 1rem;
+  }
+  .demo .demo2 {
+    margin-top: 1rem;
+  }
+  .demo .demo-area {
+    background-color: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+  }
+  .demo-item {
     position: relative;
     width: 200px;
     height: 200px;
     background-color: #eee;
     margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  .demo .demo-item .context-menu-area {
+  .demo-item .context-menu-area {
     position: absolute;
     margin: 0;
     background: #fff;
-    z-index: 3000;
+    z-index: 1;
     padding: 5px 0;
     list-style-type: none;
     border-radius: 4px;
@@ -30,40 +42,66 @@
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
     width: 135px;
   }
-  .demo .demo-item .context-menu-area .context-menu-item {
+  .demo-item .context-menu-area .context-menu-item {
     font-size: 14px;
     margin: 0;
     padding: 7px 16px;
     cursor: pointer;
   }
-  .demo .demo-item .context-menu-area .context-menu-item:hover {
+  .demo-item .context-menu-area .context-menu-item:hover {
     background: #eee;
   }
-
+  .d-flex {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+  }
   </style>
 </head>
 <body>
 <div id="app" class="demo">
-  <div v-right-click="rcAction" class="demo-item"></div>
+  <div class="d-flex demo-area demo1">
+    <div v-right-click="rcActionDemo1" class="demo-item"></div>
+  </div>
+  <div class="d-flex demo-area demo2">
+    <div
+      v-for="item in demoList"
+      :key="item.id"
+      v-right-click="rcActionDemo2(item)"
+      class="demo-item"
+    >
+      {{ item.name }}
+    </div>
+  </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="../dist/vue-right-click.umd.js"></script>
 <script>
+var i = 0
+var demoList = []
+while (i < 10) {
+  demoList.push({
+    id: i,
+    name: `area-${i + 1}`
+  })
+  i++
+}
+
 var app = new Vue({
   el: '#app',
   data() {
-    const self = this
     return {
-      rcAction: [
+      demoList: demoList,
+      rcActionDemo1: [
         {
           name: '新增',
-          event: function() {
+          event: () => {
             console.log('我执行了新增事件')
           }
         },
         {
           name: '删除',
-          event: self.deleteAction
+          event: this.deleteAction
         }
       ]
     }
@@ -71,6 +109,17 @@ var app = new Vue({
   methods: {
     deleteAction() {
       console.log('我执行删除事件')
+    },
+    rcActionDemo2(item) {
+      return [
+        {
+          name: '新增',
+          event: (item) => {
+            console.log('我执行了新增事件', item)
+          },
+          callback: item
+        }
+      ]
     }
   }
 })

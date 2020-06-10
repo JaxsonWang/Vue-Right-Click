@@ -4,7 +4,7 @@
 
 ![截图](./screenshot/vue-right-click.png)
 
-### 安装
+## 安装
 
 在 `Vue-Cli` 项目中你可以这样使用：
 
@@ -66,16 +66,48 @@ export default {
 <script src="../dist/vue-right-click.umd.js"></script>
 ```
 
-### Api
+## API
 
-未完待续
+### 插件选项：
+
+#### menuListClass
+
+- 类型：`String`
+- 默认值：`vue-right-click-list`
+- 用法：右击弹窗外层菜单列表样式名称
+
+```javascript
+Vue.use(VueRightClick, {
+  menuListClass: 'app-menu-class'
+})
+```
+
+#### menuItemClass
+
+- 类型：`String`
+- 默认值：`vue-right-click-item`
+- 用法：右击弹窗菜单选项样式名称
+
+```javascript
+Vue.use(VueRightClick, {
+  menuItemClass: 'menu-item-class'
+})
+```
+
+### 指令选项
+
+#### v-right-click
+
+- 类型：`Array | Function`
+- 默认值：`[]`
+- 用法：指令的值类型是数组，你可以直接作为数组赋值，推荐使用函数赋值。
 
 使用方法请先查看：[test/index.html](./test/index.html) 或者 [src/App.vue](./src/App.vue)
 
-### 更新日志
+## 更新日志
 
 更新日志参考[版本发布](https://github.com/JaxsonWang/Vue-Right-Click/releases)
 
-### License
+## License
 
 Vue-Right-Click is open source and released under the MIT License.

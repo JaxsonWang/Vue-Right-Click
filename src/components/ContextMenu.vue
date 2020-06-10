@@ -5,12 +5,13 @@
       top: `${contextMenuTop}px`,
       left: `${contextMenuLeft}px`
     }"
-    :class="pluginOptions.menuClass"
+    :class="pluginOptions.menuListClass"
     class="context-menu-area"
   >
     <li
       v-for="(item, index) in menuList"
       :key="index"
+      :class="pluginOptions.menuItemClass"
       class="context-menu-item"
       @click.prevent.stop="clickAction(item)"
     >
@@ -52,22 +53,18 @@ export default {
       }
     }
   },
-  data() {
-    return {}
-  },
   watch: {
     visible: {
       handler(value) {
-        if (value) {
-          document.body.addEventListener('click', this.closeMenu)
-        } else {
-          document.body.removeEventListener('click', this.closeMenu)
-        }
+        value ? document.body.addEventListener('click', this.closeMenu) : document.body.removeEventListener('click', this.closeMenu)
       },
       immediate: true
     }
   },
   methods: {
+    /**
+     * 关闭弹窗
+     */
     closeMenu() {
       this.$emit('close-menu', false)
       this.visible = false
@@ -77,11 +74,10 @@ export default {
      * @param item
      */
     clickAction(item) {
-      item.event()
+      // 传入回调参数
+      item.callback === undefined ? item.event() : item.event(item.callback)
       this.closeMenu()
     }
   }
 }
 </script>
-<style>
-</style>

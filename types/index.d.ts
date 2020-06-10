@@ -3,7 +3,8 @@ import { PluginObject } from 'vue'
 declare const VueRightClick: PluginObject<VueRightClickOptions>
 
 export interface VueRightClickOptions {
-  menuClass?: string
+  menuListClass?: string,
+  menuItemClass?: string
 }
 
 export default VueRightClick

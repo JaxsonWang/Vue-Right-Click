@@ -3,7 +3,8 @@ import ContextMenu from './components/ContextMenu'
 export const install = (Vue, constructorOptions) => {
   // 获取插件选项
   const globalOptions = Object.assign({}, {
-    menuClass: 'vue-right-click'
+    menuListClass: 'vue-right-click-list',
+    menuItemClass: 'vue-right-click-item'
   }, constructorOptions)
 
   Vue.directive('right-click', {
@@ -20,7 +21,7 @@ export const install = (Vue, constructorOptions) => {
        * 监听鼠标右键
        * @param event 鼠标原生事件
        */
-      el.oncontextmenu = (event) => {
+      el.oncontextmenu = event => {
         // 阻止事件
         event.preventDefault()
         if (!vnode.context['hasContextMenu']) {
@@ -40,7 +41,7 @@ export const install = (Vue, constructorOptions) => {
               visible: true,
               contextMenuTop: rightClickHeaderRowTop,
               contextMenuLeft: rightClickHeaderRowLeft,
-              menuList: binding.value,
+              menuList: typeof binding.value === 'function' ? binding.value() : binding.value,
               pluginOptions: globalOptions
             }
           }).$mount(node)
@@ -56,8 +57,6 @@ export const install = (Vue, constructorOptions) => {
   })
 }
 
-if (window.Vue) {
-  window.Vue.use(install)
-}
+if (window.Vue) window.Vue.use(install)
 
 export default install

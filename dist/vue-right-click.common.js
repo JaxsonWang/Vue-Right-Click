@@ -1493,21 +1493,22 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
 var es_object_assign = __webpack_require__("cca6");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1cf3a281-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/ContextMenu.vue?vue&type=template&id=38d779b2&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.visible)?_c('ul',{staticClass:"context-menu-area",class:_vm.pluginOptions.menuClass,style:({
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"8b73453e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/ContextMenu.vue?vue&type=template&id=286f484c&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.visible)?_c('ul',{staticClass:"context-menu-area",class:_vm.pluginOptions.menuListClass,style:({
     top: (_vm.contextMenuTop + "px"),
     left: (_vm.contextMenuLeft + "px")
-  })},_vm._l((_vm.menuList),function(item,index){return _c('li',{key:index,staticClass:"context-menu-item",on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.clickAction(item)}}},[_vm._v(" "+_vm._s(item.name)+" ")])}),0):_vm._e()}
+  })},_vm._l((_vm.menuList),function(item,index){return _c('li',{key:index,staticClass:"context-menu-item",class:_vm.pluginOptions.menuItemClass,on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.clickAction(item)}}},[_vm._v(" "+_vm._s(item.name)+" ")])}),0):_vm._e()}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/ContextMenu.vue?vue&type=template&id=38d779b2&
+// CONCATENATED MODULE: ./src/components/ContextMenu.vue?vue&type=template&id=286f484c&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/ContextMenu.vue?vue&type=script&lang=js&
 
+//
 //
 //
 //
@@ -1561,22 +1562,18 @@ var es_number_constructor = __webpack_require__("a9e3");
       }
     }
   },
-  data: function data() {
-    return {};
-  },
   watch: {
     visible: {
       handler: function handler(value) {
-        if (value) {
-          document.body.addEventListener('click', this.closeMenu);
-        } else {
-          document.body.removeEventListener('click', this.closeMenu);
-        }
+        value ? document.body.addEventListener('click', this.closeMenu) : document.body.removeEventListener('click', this.closeMenu);
       },
       immediate: true
     }
   },
   methods: {
+    /**
+     * 关闭弹窗
+     */
     closeMenu: function closeMenu() {
       this.$emit('close-menu', false);
       this.visible = false;
@@ -1587,7 +1584,8 @@ var es_number_constructor = __webpack_require__("a9e3");
      * @param item
      */
     clickAction: function clickAction(item) {
-      item.event();
+      // 传入回调参数
+      item.callback === undefined ? item.event() : item.event(item.callback);
       this.closeMenu();
     }
   }
@@ -1720,7 +1718,8 @@ var component = normalizeComponent(
 var src_install = function install(Vue, constructorOptions) {
   // 获取插件选项
   var globalOptions = Object.assign({}, {
-    menuClass: 'vue-right-click'
+    menuListClass: 'vue-right-click-list',
+    menuItemClass: 'vue-right-click-item'
   }, constructorOptions);
   Vue.directive('right-click', {
     /**
@@ -1756,7 +1755,7 @@ var src_install = function install(Vue, constructorOptions) {
               visible: true,
               contextMenuTop: rightClickHeaderRowTop,
               contextMenuLeft: rightClickHeaderRowLeft,
-              menuList: binding.value,
+              menuList: typeof binding.value === 'function' ? binding.value() : binding.value,
               pluginOptions: globalOptions
             }
           }).$mount(node); // 监听组件触发事件执行回调事件
@@ -1770,11 +1769,7 @@ var src_install = function install(Vue, constructorOptions) {
     }
   });
 };
-
-if (window.Vue) {
-  window.Vue.use(src_install);
-}
-
+if (window.Vue) window.Vue.use(src_install);
 /* harmony default export */ var src_0 = (src_install);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 
