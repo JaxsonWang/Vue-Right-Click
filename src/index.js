@@ -29,11 +29,13 @@ export const install = (Vue, constructorOptions) => {
           vnode.context['hasContextMenu'] = true
           // 生成右击菜单界面
           const ContextMenuNode = Vue.extend(ContextMenu)
-          const node = el.appendChild(document.createElement('div'))
+          const node = document.body.appendChild(document.createElement('div'))
           // 计算点击位置
           // todo 自适应弹窗位置
-          const rightClickHeaderRowLeft = event.offsetX
-          const rightClickHeaderRowTop = event.offsetY
+          const scrollX = document.documentElement.scrollLeft || document.body.scrollLeft
+          const scrollY = document.documentElement.scrollTop || document.body.scrollTop
+          const rightClickHeaderRowLeft = event.pageX || event.clientX + scrollX
+          const rightClickHeaderRowTop = event.pageY || event.clientY + scrollY
 
           // 调用组件
           const contextMenuNode = new ContextMenuNode({

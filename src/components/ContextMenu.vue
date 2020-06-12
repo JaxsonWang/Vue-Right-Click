@@ -75,7 +75,9 @@ export default {
      */
     clickAction(item) {
       // 传入回调参数
-      item.callback === undefined ? item.event() : item.event(item.callback)
+      if (typeof item.event === 'function') {
+        item.callback === undefined ? item.event() : item.event(item.callback)
+      }
       this.closeMenu()
     }
   }
