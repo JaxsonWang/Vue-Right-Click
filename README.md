@@ -19,7 +19,7 @@ yarn add @jaxson/vue-right-click
 ```javascript
 import VueRightClick from '@jaxson/vue-right-click'
 
-Vue.use(VueRightClick)
+Vue.use(VueRightClick, VueRightClickOptions)
 ```
 
 然后在需要显示右击菜单注入指令即可：
@@ -102,7 +102,47 @@ Vue.use(VueRightClick, {
 - 默认值：`[]`
 - 用法：指令的值类型是数组，你可以直接作为数组赋值，推荐使用函数赋值。
 
+数组的对象如下：
+
+```json
+{
+  "name": "菜单名称",
+  "event": "事件名称",
+  "callback": "传入事件回调"
+}
+```
+
 使用方法请先查看：[test/index.html](./test/index.html) 或者 [src/App.vue](./src/App.vue)
+
+#### 弹窗样式
+
+插件默认不存在弹窗样式，需要自己添加，当然你可以尝试加入下列样式：
+
+```css
+.context-menu-area {
+    position: absolute;
+    margin: 0;
+    background: #fff;
+    z-index: 1;
+    padding: 5px 0;
+    list-style-type: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+    width: 135px;
+  }
+  .context-menu-area .context-menu-item {
+    font-size: 14px;
+    margin: 0;
+    padding: 7px 16px;
+    cursor: pointer;
+  }
+  .context-menu-area .context-menu-item:hover {
+    background: #eee;
+  }
+```
 
 ## 更新日志
 
