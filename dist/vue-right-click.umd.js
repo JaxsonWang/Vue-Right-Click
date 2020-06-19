@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["vue-right-click"] = factory();
+		exports["VueRightClick"] = factory();
 	else
-		root["vue-right-click"] = factory();
+		root["VueRightClick"] = factory();
 })((typeof self !== 'undefined' ? self : this), function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -1502,15 +1502,15 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.object.assign.js
 var es_object_assign = __webpack_require__("cca6");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"8b73453e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/ContextMenu.vue?vue&type=template&id=286f484c&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b5dc6366-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/ContextMenu.vue?vue&type=template&id=dd732c8a&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.visible)?_c('ul',{staticClass:"context-menu-area",class:_vm.pluginOptions.menuListClass,style:({
     top: (_vm.contextMenuTop + "px"),
     left: (_vm.contextMenuLeft + "px")
-  })},_vm._l((_vm.menuList),function(item,index){return _c('li',{key:index,staticClass:"context-menu-item",class:_vm.pluginOptions.menuItemClass,on:{"click":function($event){$event.preventDefault();$event.stopPropagation();return _vm.clickAction(item)}}},[_vm._v(" "+_vm._s(item.name)+" ")])}),0):_vm._e()}
+  })},_vm._l((_vm.menuList),function(item,index){return _c('li',{key:index,staticClass:"context-menu-item",class:[_vm.pluginOptions.menuItemClass, _vm.disableAction(item)],on:{"click":function($event){$event.preventDefault();$event.stopPropagation();_vm.disableAction(item) === false ? _vm.clickAction(item) : false}}},[_vm._v(" "+_vm._s(item.name)+" ")])}),0):_vm._e()}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/ContextMenu.vue?vue&type=template&id=286f484c&
+// CONCATENATED MODULE: ./src/components/ContextMenu.vue?vue&type=template&id=dd732c8a&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -1594,8 +1594,20 @@ var es_number_constructor = __webpack_require__("a9e3");
      */
     clickAction: function clickAction(item) {
       // 传入回调参数
-      item.callback === undefined ? item.event() : item.event(item.callback);
+      if (typeof item.event === 'function') {
+        item.callback === undefined ? item.event() : item.event(item.callback);
+      }
+
       this.closeMenu();
+    },
+
+    /**
+     * 菜单禁用
+     * @param item
+     * @return string 返回样式
+     */
+    disableAction: function disableAction(item) {
+      return typeof item.disable === 'function' ? item.disable(item.callback) ? this.pluginOptions.menuDisableClass : false : item.disable ? this.pluginOptions.menuDisableClass : false;
     }
   }
 });
@@ -1728,7 +1740,9 @@ var src_install = function install(Vue, constructorOptions) {
   // 获取插件选项
   var globalOptions = Object.assign({}, {
     menuListClass: 'vue-right-click-list',
-    menuItemClass: 'vue-right-click-item'
+    menuItemClass: 'vue-right-click-item',
+    menuDisableClass: 'vue-right-click-disable',
+    injectBody: true
   }, constructorOptions);
   Vue.directive('right-click', {
     /**
@@ -1753,11 +1767,26 @@ var src_install = function install(Vue, constructorOptions) {
           vnode.context['hasContextMenu'] = true; // 生成右击菜单界面
 
           var ContextMenuNode = Vue.extend(ContextMenu);
-          var node = el.appendChild(document.createElement('div')); // 计算点击位置
-          // todo 自适应弹窗位置
+          var node = '';
+          var rightClickHeaderRowLeft = '';
+          var rightClickHeaderRowTop = '';
 
-          var rightClickHeaderRowLeft = event.offsetX;
-          var rightClickHeaderRowTop = event.offsetY; // 调用组件
+          if (globalOptions.injectBody) {
+            // 从 body 元素插入
+            node = document.body.appendChild(document.createElement('div')); // 计算点击位置
+            // todo 自适应弹窗位置
+
+            var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+            var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+            rightClickHeaderRowLeft = event.pageX || event.clientX + scrollX;
+            rightClickHeaderRowTop = event.pageY || event.clientY + scrollY;
+          } else {
+            // 从鼠标位置的元素插入
+            node = el.appendChild(document.createElement('div'));
+            rightClickHeaderRowLeft = event.offsetX;
+            rightClickHeaderRowTop = event.offsetY;
+          } // 调用组件
+
 
           var contextMenuNode = new ContextMenuNode({
             propsData: {
@@ -1778,7 +1807,6 @@ var src_install = function install(Vue, constructorOptions) {
     }
   });
 };
-if (window.Vue) window.Vue.use(src_install);
 /* harmony default export */ var src_0 = (src_install);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 

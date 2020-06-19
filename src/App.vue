@@ -58,6 +58,16 @@ export default {
             console.log('我执行了新增事件', item)
           },
           callback: item
+        },
+        {
+          name: '删除',
+          event: (item) => {
+            console.log('我执行了删除事件', item)
+          },
+          disable: (callback) => {
+            return 1 + 1 === 2
+          },
+          callback: item
         }
       ]
     }
@@ -71,12 +81,15 @@ export default {
 .demo {
   background-color: rgba(0, 0, 0, 0.1);
   padding: 0 0.5rem;
+
   .demo1 {
     margin-top: 1rem;
   }
+
   .demo2 {
     margin-top: 1rem;
   }
+
   .demo-area {
     background-color: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
@@ -92,38 +105,43 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .context-menu-area {
-    position: absolute;
-    margin: 0;
-    background: #fff;
-    z-index: 1;
-    padding: 5px 0;
-    list-style-type: none;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #333;
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
-    width: 135px;
-
-    .context-menu-item {
-      font-size: 14px;
-      margin: 0;
-      padding: 7px 16px;
-      cursor: pointer;
-
-      &:hover {
-        background: #eee;
-      }
-    }
-  }
 }
 
 .d-flex {
   position: relative;
   display: flex;
   flex-wrap: wrap;
+}
+
+.app-menu-class {
+  position: absolute;
+  margin: 0;
+  background-color: #fff;
+  z-index: 1;
+  padding: 5px 0;
+  list-style-type: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+  width: 135px;
+
+  .menu-item-class {
+    font-size: 14px;
+    margin: 0;
+    padding: 7px 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  .menu-item-class-disable {
+    background-color: #eee;
+    cursor: auto;
+  }
 }
 
 </style>

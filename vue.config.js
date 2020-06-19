@@ -5,7 +5,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = 'vue-right-click'
+const name = 'VueRightClick'
 
 module.exports = {
   publicPath: './',
@@ -26,6 +26,11 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    output: {
+      filename: '[name].js',
+      library: name,
+      libraryTarget: 'umd'
     }
   }
 }

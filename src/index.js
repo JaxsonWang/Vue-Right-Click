@@ -4,7 +4,9 @@ export const install = (Vue, constructorOptions) => {
   // 获取插件选项
   const globalOptions = Object.assign({}, {
     menuListClass: 'vue-right-click-list',
-    menuItemClass: 'vue-right-click-item'
+    menuItemClass: 'vue-right-click-item',
+    menuDisableClass: 'vue-right-click-disable',
+    injectBody: true
   }, constructorOptions)
 
   Vue.directive('right-click', {
@@ -29,13 +31,24 @@ export const install = (Vue, constructorOptions) => {
           vnode.context['hasContextMenu'] = true
           // 生成右击菜单界面
           const ContextMenuNode = Vue.extend(ContextMenu)
-          const node = document.body.appendChild(document.createElement('div'))
-          // 计算点击位置
-          // todo 自适应弹窗位置
-          const scrollX = document.documentElement.scrollLeft || document.body.scrollLeft
-          const scrollY = document.documentElement.scrollTop || document.body.scrollTop
-          const rightClickHeaderRowLeft = event.pageX || event.clientX + scrollX
-          const rightClickHeaderRowTop = event.pageY || event.clientY + scrollY
+          let node = ''
+          let rightClickHeaderRowLeft = ''
+          let rightClickHeaderRowTop = ''
+          if (globalOptions.injectBody) {
+            // 从 body 元素插入
+            node = document.body.appendChild(document.createElement('div'))
+            // 计算点击位置
+            // todo 自适应弹窗位置
+            const scrollX = document.documentElement.scrollLeft || document.body.scrollLeft
+            const scrollY = document.documentElement.scrollTop || document.body.scrollTop
+            rightClickHeaderRowLeft = event.pageX || event.clientX + scrollX
+            rightClickHeaderRowTop = event.pageY || event.clientY + scrollY
+          } else {
+            // 从鼠标位置的元素插入
+            node = el.appendChild(document.createElement('div'))
+            rightClickHeaderRowLeft = event.offsetX
+            rightClickHeaderRowTop = event.offsetY
+          }
 
           // 调用组件
           const contextMenuNode = new ContextMenuNode({
@@ -58,7 +71,5 @@ export const install = (Vue, constructorOptions) => {
     }
   })
 }
-
-if (window.Vue) window.Vue.use(install)
 
 export default install

@@ -1,6 +1,6 @@
 {
   "name": "@jaxson/vue-right-click",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "description": "On Textmenu Plugin For Vue.js 2.0",
   "author": "Jaxson Wang",
@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build:lib": "vue-cli-service build --target lib --name vue-right-click ./src/index.js",
+    "build:lib": "vue-cli-service build --target lib --name vue-right-click --dest dist ./src/index.js",
     "lint": "vue-cli-service lint"
   },
   "devDependencies": {

@@ -11,9 +11,9 @@
     <li
       v-for="(item, index) in menuList"
       :key="index"
-      :class="pluginOptions.menuItemClass"
+      :class="[pluginOptions.menuItemClass, disableAction(item)]"
       class="context-menu-item"
-      @click.prevent.stop="clickAction(item)"
+      @click.prevent.stop="disableAction(item) === false ? clickAction(item) : false"
     >
       {{ item.name }}
     </li>
@@ -79,6 +79,14 @@ export default {
         item.callback === undefined ? item.event() : item.event(item.callback)
       }
       this.closeMenu()
+    },
+    /**
+     * 菜单禁用
+     * @param item
+     * @return string 返回样式
+     */
+    disableAction(item) {
+      return typeof item.disable === 'function' ? item.disable(item.callback) ? this.pluginOptions.menuDisableClass : false : item.disable ? this.pluginOptions.menuDisableClass : false
     }
   }
 }
