@@ -1,6 +1,6 @@
 {
-  "name": "@jaxson/vue-right-click",
-  "version": "0.0.5",
+  "name": "@jaxsonwang/vue-right-click",
+  "version": "0.0.6",
   "private": false,
   "description": "On Textmenu Plugin For Vue.js 2.0",
   "author": "Jaxson Wang",
@@ -9,6 +9,9 @@
   "jsdelivr": "dist/vue-right-click.umd.js",
   "main": "dist/vue-right-click.umd.js",
   "types": "types/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/JaxsonWang/Vue-Right-Click.git"

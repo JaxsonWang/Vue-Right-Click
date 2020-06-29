@@ -2,22 +2,22 @@
 
 > 高度灵活且简易的右键菜单 Vue.js 指令插件
 
-![截图](./screenshot/vue-right-click.png)
+![截图](https://raw.githubusercontent.com/JaxsonWang/Vue-Right-Click/master/screenshot/vue-right-click.png)
 
 ## 安装
 
 在 `Vue-Cli` 项目中你可以这样使用：
 
 ```bash
-npm install @jaxson/vue-right-click
+npm install @jaxsonwang/vue-right-click
 # or
-yarn add @jaxson/vue-right-click
+yarn add @jaxsonwang/vue-right-click
 ```
 
 全局注入：
 
 ```javascript
-import VueRightClick from '@jaxson/vue-right-click'
+import VueRightClick from '@jaxsonwang/vue-right-click'
 
 Vue.use(VueRightClick, VueRightClickOptions)
 ```
